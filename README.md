@@ -17,4 +17,4 @@ An interactive flight simulator written in WebGL. It's not my best work, and rea
 * 2 - Left View
 * 3 - Top View<br/><br/>
 
-<img align="center" src="https://i.imgur.com/GahZ25p.png" width="800" height="382" />
+<img align="center" src="https://i.imgur.com/aouPd6N.png" width="800" height="382" />
