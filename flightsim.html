@@ -1,0 +1,82 @@
+<html>
+    <head>
+        <style>
+            html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0px;
+                border: 0;
+                display: block;
+                background-color:#F7F7F7;
+            }
+            #overlay {
+                position: absolute;
+                left: 0px;
+                top: -12px;
+                color: black;
+                font-size: 12px;
+                font-family: monospace;
+                padding: 1em;
+                white-space: pre-line;
+                user-select: none;
+            }
+        </style>
+        <script id="vertex-shader" type="x-shader/x-vertex">
+            attribute vec4 vPosition;
+            attribute vec4 vNormal;
+            attribute vec2 vTexCoords;
+            
+            uniform mat4 mProjection;
+            uniform mat4 mModelView;
+
+            varying vec4 fColor;
+            varying vec2 fTexCoords; 
+
+            void main() {
+                fColor.rgb = vNormal.xyz;
+                fTexCoords = vTexCoords;
+                
+                gl_Position = mProjection * mModelView * vPosition;
+            }
+        </script>
+        <script id="fragment-shader" type="x-shader/x-fragment">
+            precision mediump float;
+            
+            uniform bool uUseTexture;
+            uniform bool uUseVertColor;
+            uniform sampler2D uTexture;
+            
+            varying vec4 fColor;
+            varying vec2 fTexCoords;
+            
+            void main() {
+                vec4 vertColor = vec4(1.0, 1.0, 1.0, 1.0);
+                vec4 texColor = vec4(1.0, 1.0, 1.0, 1.0);
+                if (uUseVertColor)
+                    vertColor = vec4(fColor.r, fColor.g, fColor.b, 1.0);
+                if (uUseTexture)
+                    texColor = texture2D(uTexture, fTexCoords);
+                gl_FragColor = texColor * vertColor;
+            }
+        </script>
+        <script type="text/javascript" src="../Common/webgl-utils.js"></script>
+        <script type="text/javascript" src="../Common/initShaders.js"></script>
+        <script type="text/javascript" src="../Common/MV.js"></script>
+        <script type="text/javascript" src="../Common/cone.js"></script>
+        <script type="text/javascript" src="../Common/cube.js"></script>
+        <script type="text/javascript" src="../Common/cylinder.js"></script>
+        <script type="text/javascript" src="../Common/sphere.js"></script>
+        <script type="text/javascript" src="flightsim.js"></script>
+        <script type="text/javascript" src="include/texcube.js"></script>
+        <script type="text/javascript" src="include/matrixstack.js"></script>
+    </head>
+    <body>
+        <title>Flight Simulator</title>
+        <canvas id="gl-canvas" width="512" height="512">
+            Oops... your browser doesn't support the HTML5 canvas element"
+        </canvas>
+        <div id="overlay">
+            <div><span id="text"></span></div>
+        </div>
+    </body>
+</html>
